@@ -3,14 +3,17 @@
 
 select * 
 from Portfolio_Project.dbo.CovidDeaths
+where continent is not null 
 order by 3,4
 
 select * 
 from Portfolio_Project.dbo.CovidVaccinations
+where continent is not null 
 order by 3,4
 
 select location,date,total_cases,new_cases,total_deaths,population
 from Portfolio_Project.dbo.CovidDeaths
+where continent is not null 
 order by 1,2
 
 --Looking at Total Cases VS Total Deathes 
@@ -18,7 +21,7 @@ order by 1,2
 
 select location,cast(date AS date) AS date ,total_cases,total_deaths,(total_deaths /total_cases) *100 AS DeathPercentage
 from Portfolio_Project.dbo.CovidDeaths
-where location like '%saud%'
+where location like '%saud%' and  continent is not null 
 order by 1,2 desc
 
 
@@ -28,6 +31,7 @@ order by 1,2 desc
 select location,cast(date AS date) AS date ,population,total_cases,(total_cases /population) *100 AS DeathPercentage
 from Portfolio_Project.dbo.CovidDeaths
 --where location like '%states%'
+where continent is not null 
 order by 1,2 desc
 
 
@@ -36,5 +40,29 @@ order by 1,2 desc
 select location,population,max(total_cases) as HighestInfectionCount,max((total_cases /population)) *100 AS PercentagePopulationInfected
 from Portfolio_Project.dbo.CovidDeaths
 --where location like '%states%'
+where continent is not null 
 group by location,population
 order by PercentagePopulationInfected desc
+
+-- Looking at countries with Highest Death count per population 
+
+select location,population,max(cast(total_deaths as int)) as HighestDeathCount
+from Portfolio_Project.dbo.CovidDeaths
+--where location like '%states%'
+where continent is not null 
+group by location,population
+order by HighestDeathCount desc
+
+-- Let's break things down by continent
+-- Showing contintents with the highest death count per population 
+
+select continent,max(cast(total_deaths as int)) as HighestDeathCount
+from Portfolio_Project.dbo.CovidDeaths
+--where location like '%states%'
+where continent is not null 
+group by continent
+order by HighestDeathCount desc
+
+--Global Numbers
+
+
