@@ -1,5 +1,5 @@
 
--- This is my first portfolio project 
+-- Data Exploration OF covid 19 DataSet in SQL Server.
 
 select * 
 from Portfolio_Project.dbo.CovidDeaths
